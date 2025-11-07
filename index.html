@@ -34,16 +34,6 @@
     .btn:hover {
       background-color: #0d47a1;
     }
-    <script>
-const user = JSON.parse(localStorage.getItem("loggedInUser"));
-if (!user) window.location.href = "login.html";
-document.body.innerHTML += `
-    <div style="text-align:center;margin-top:20px;">
-        <img src="${user.photo || 'default.png'}" width="100" height="100" style="border-radius:50%;border:2px solid #0984e3;"><br>
-        <h3>Selamat datang, ${user.username}</h3>
-    </div>
-`;
-</script>
 
   </style>
 </head>
