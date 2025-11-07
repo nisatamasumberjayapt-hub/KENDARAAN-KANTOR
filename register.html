@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daftar Akun - PT ANISA JAYA UTAMA</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #dfe6e9;
+    text-align: center;
+    margin-top: 80px;
+}
+.container {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    width: 350px;
+    margin: auto;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+input {
+    width: 90%;
+    margin: 8px 0;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #b2bec3;
+}
+button {
+    background-color: #0984e3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+button:hover { background-color: #74b9ff; }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Daftar Akun Baru</h2>
+    <input type="text" id="username" placeholder="Username" required><br>
+    <input type="password" id="password" placeholder="Password" required><br>
+    <input type="file" id="photo" accept="image/*"><br>
+    <button onclick="register()">Daftar</button>
+    <p id="msg" style="color:green;font-weight:bold;"></p>
+</div>
+
+<script>
+function register() {
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const file = document.getElementById("photo").files[0];
+    const msg = document.getElementById("msg");
+
+    if (!username || !password || !file) {
+        msg.style.color = "red";
+        msg.innerText = "Semua field wajib diisi!";
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+        if (users.find(u => u.username === username)) {
+            msg.style.color = "red";
+            msg.innerText = "Username sudah digunakan!";
+            return;
+        }
+
+        users.push({
+            username: username,
+            password: password,
+            role: "user",
+            photo: e.target.result  // simpan foto dalam base64
+        });
+
+        localStorage.setItem("users", JSON.stringify(users));
+        msg.style.color = "green";
+        msg.innerText = "Pendaftaran berhasil! Silakan login.";
+    };
+    reader.readAsDataURL(file);
+}
+</script>
+
+</body>
+</html>
